@@ -1,0 +1,143 @@
+/* Question.css */
+
+/* Main container */
+.question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+  }
+  
+  /* Title */
+  .question-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  /* Form */
+  .question-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .question-input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #555;
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  .question-input::placeholder {
+    color: #888;
+  }
+  
+  .question-input:focus {
+    outline: none;
+    border-color: #0077ff;
+  }
+  
+  .question-button {
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    background-color: #0077ff;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .question-button:hover {
+    background-color: #0055aa;
+  }
+  
+  /* List */
+  .question-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .question-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    width: 50%;
+  }
+  
+  .question-item:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .question-item p {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .question-text {
+    font-weight: bold;
+  }
+  
+  .question-owner {
+    margin-top: 0.5rem;
+    font-style: italic;
+    font-size: 1rem;
+  }
+  
+  .question-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .question-edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .question-edit-input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #555;
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  .question-edit-input:focus {
+    outline: none;
+    border-color: #0077ff;
+  }
+  
+  .question-edit-button {
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    background-color: #0077ff;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .question-edit-button:hover {
+    background-color: #0055aa;
+  }
+  

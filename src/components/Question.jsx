@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Question.css'
 
 export default function MainQuestion() {
   const [questions, setQuestions] = useState([]);
@@ -9,7 +10,8 @@ export default function MainQuestion() {
   });
   const [editing, setEditing] = useState(null);
 
-  const addQuestion = () => {
+  const addQuestion = (e) => {
+    e.preventDefault();
     setQuestions([...questions, newQuestion]);
     setNewQuestion({ text: '', answer: '', owner: '' });
   };
@@ -47,51 +49,66 @@ export default function MainQuestion() {
   };
 
   return (
-    <div>
-      <h1>Enter Your Questions Below</h1>
+    <div className="question-container">
+      <h1 className="question-heading">Ask Your Questions</h1>
       <form onSubmit={addQuestion}>
         <input
           type="text"
           name="owner"
-          placeholder="Add Name (optional)..."
+          placeholder="Your Name (Optional)"
           value={newQuestion.owner}
           onChange={handleChange}
+          className="question-input"
         />
-        <input
-          type="text"
+        <textarea
           name="text"
-          placeholder="Ask Question..."
+          placeholder="Your Question"
           value={newQuestion.text}
           onChange={handleChange}
-        />
-        <input
-          type="text"
+          className="question-input"
+        ></textarea>
+        <textarea
           name="answer"
-          placeholder="Add Answer..."
+          placeholder="Answer"
           value={newQuestion.answer}
           onChange={handleChange}
-        />
-        <button type="submit">Ask A Question</button>
+          className="question-input"
+        ></textarea>
+        <button type="submit" className="question-button">
+          Ask Question
+        </button>
       </form>
-      <ul>
+      <ul className="question-list">
         {questions.map((q) => (
-          <li key={q.id}>
-            <p>Question: {q.text}?</p>
-            <p>Answer: {q.answer}</p>
-            <p>Created By: {q.owner}</p>
-            <button onClick={() => handleEdit(q.id)}>Edit</button>
+          <li key={q.id} className="question-item">
+            <div className="question-item-header">
+              <h3 className="question-item-heading">{q.text}?</h3>
+              <div className="question-item-actions">
+                <button onClick={() => handleEdit(q.id)} className="question-item-button">
+                  Edit
+                </button>
+                <button onClick={() => handleDelete(q.id)} className="question-item-button">
+                  Delete
+                </button>
+              </div>
+            </div>
             {editing === q.id && (
               <form onSubmit={(e) => handleSubmitEdit(e, q.id)}>
-                <input
-                  type="text"
+                <textarea
                   name="text"
                   value={newQuestion.text}
                   onChange={handleChange}
-                />
-                <button type="submit">Submit</button>
+                  className="question-input"
+                ></textarea>
+                <button type="submit" className="question-item-button">
+                  Submit
+                </button>
               </form>
             )}
-            <button onClick={() => handleDelete(q.id)}>Delete</button>
+            <div className="question-item-footer">
+              <p className="question-item-owner">Created By: {q.owner}</p>
+              <p className="question-item-answer">Answer: {q.answer}</p>
+            </div>
           </li>
         ))}
       </ul>
