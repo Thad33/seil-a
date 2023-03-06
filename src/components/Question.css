@@ -17,6 +17,9 @@
   }
   
   /* Form */
+  form{
+    margin-bottom: 1rem;
+  }
   .question-form {
     display: flex;
     flex-direction: column;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Question.css'
 
-export default function MainQuestion() {
+export default function Question() {
   const [questions, setQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState({
     text: '',
