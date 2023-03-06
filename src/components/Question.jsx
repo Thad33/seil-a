@@ -5,7 +5,63 @@ import React, {useReducer} from 'react'
   const [state, dispatch] = useReducer(reducer, initialState)
   
   return (
-    <div></div>
+    <div>
+      <div id='takeInp'>
+        <h1>Write your Questions</h1>
+        <span>
+          <h1 id='labQuestion'>Add your name:</h1>
+          <span>
+            <input type="text" placeholder='Add Name (optional)...' value={owner} onChange={addName}/>
+          </span>
+        </span>
+        <span>
+          <h1 id='labQuestion'>Question:</h1>
+          <span>
+            <input id='questionInp' placeholder='Add Question...' type="text" value={question} onChange={takeQuestion} />
+          </span>
+        </span>
+      </div>
+      <button id='addQuestionBtn' onClick={addQuestion}>Add Question</button>
+      <button id='hideQuestionsBtn' onClick={hideQuestions}>Hide Questions</button>
+      <button id="showQuestionsBtn" onClick={showQuestions}>Show Questions</button>
+     
+      {show && arr.map((item) =>
+      
+     <div id='displayQuestions' key={item.id}>
+         
+          <p>Question: {item.Question}?</p>
+          <p>Answer: {item.Answer}</p>
+          <p>Created By: {item.Owner}</p>
+          <button id='answerBtn' onClick={() => handleAnswer(item.id)}>Answer</button>
+         
+          {answerInp && answerId === item.id &&
+            <>
+              <h3>Answer the Question</h3>
+              <input type="text" onChange={handleAnswering} value={answer} />
+              <button onClick={() => handleSubmitAns(item.id)}>Submit</button>
+            </>
+          }
+          <button id='editBtn' onClick={() => handleEdit(item.id)}>Edit</button>
+          {editInp && editId === item.id &&
+            <>
+              <h3>Edit the Question</h3>
+              <input type="text" onChange={takeQuestion} value={question} />
+              <button onClick={() => handleEditing(item.id)}>Submit</button>
+            </>
+          }
+          <button id='deleteBtn' onClick={() => handleDelete(item.id)}>Delete</button>
+         
+    {deleteInp && deleteId === item.id && (
+      <>
+        <h3>Confirm Name to delete the Question</h3>
+        <input type="text" onChange={takeName} value={deleteName} />
+        <button onClick={() => handleDeleting(item.id)}>Submit</button>
+      </>
+    )}
+        </div>
+       
+      )}
+    </div>
   )
 }
 
