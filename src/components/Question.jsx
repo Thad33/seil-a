@@ -1,204 +1,100 @@
-import React, {useReducer} from 'react'
+import React, { useState } from 'react';
 
+export default function MainQuestion() {
+  const [questions, setQuestions] = useState([]);
+  const [newQuestion, setNewQuestion] = useState({
+    text: '',
+    answer: '',
+    owner: '',
+  });
+  const [editing, setEditing] = useState(null);
 
- function Question () {
-  const [state, dispatch] = useReducer(reducer, initialState)
-  
+  const addQuestion = () => {
+    setQuestions([...questions, newQuestion]);
+    setNewQuestion({ text: '', answer: '', owner: '' });
+  };
+
+  const handleChange = (e) => {
+    setNewQuestion({
+      ...newQuestion,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEdit = (id) => {
+    setEditing(id);
+  };
+
+  const handleSubmitEdit = (e, id) => {
+    e.preventDefault();
+    const editedQuestion = questions.map((q) => {
+      if (q.id === id) {
+        return {
+          ...q,
+          text: newQuestion.text,
+        };
+      } else {
+        return q;
+      }
+    });
+    setQuestions(editedQuestion);
+    setEditing(null);
+  };
+
+  const handleDelete = (id) => {
+    const remainingQuestions = questions.filter((q) => q.id !== id);
+    setQuestions(remainingQuestions);
+  };
+
   return (
     <div>
-      <div id='takeInp'>
-        <h1>Write your Questions</h1>
-        <span>
-          <h1 id='labQuestion'>Add your name:</h1>
-          <span>
-            <input type="text" placeholder='Add Name (optional)...' value={owner} onChange={addName}/>
-          </span>
-        </span>
-        <span>
-          <h1 id='labQuestion'>Question:</h1>
-          <span>
-            <input id='questionInp' placeholder='Add Question...' type="text" value={question} onChange={takeQuestion} />
-          </span>
-        </span>
-      </div>
-      <button id='addQuestionBtn' onClick={addQuestion}>Add Question</button>
-      <button id='hideQuestionsBtn' onClick={hideQuestions}>Hide Questions</button>
-      <button id="showQuestionsBtn" onClick={showQuestions}>Show Questions</button>
-     
-      {show && arr.map((item) =>
-      
-     <div id='displayQuestions' key={item.id}>
-         
-          <p>Question: {item.Question}?</p>
-          <p>Answer: {item.Answer}</p>
-          <p>Created By: {item.Owner}</p>
-          <button id='answerBtn' onClick={() => handleAnswer(item.id)}>Answer</button>
-         
-          {answerInp && answerId === item.id &&
-            <>
-              <h3>Answer the Question</h3>
-              <input type="text" onChange={handleAnswering} value={answer} />
-              <button onClick={() => handleSubmitAns(item.id)}>Submit</button>
-            </>
-          }
-          <button id='editBtn' onClick={() => handleEdit(item.id)}>Edit</button>
-          {editInp && editId === item.id &&
-            <>
-              <h3>Edit the Question</h3>
-              <input type="text" onChange={takeQuestion} value={question} />
-              <button onClick={() => handleEditing(item.id)}>Submit</button>
-            </>
-          }
-          <button id='deleteBtn' onClick={() => handleDelete(item.id)}>Delete</button>
-         
-    {deleteInp && deleteId === item.id && (
-      <>
-        <h3>Confirm Name to delete the Question</h3>
-        <input type="text" onChange={takeName} value={deleteName} />
-        <button onClick={() => handleDeleting(item.id)}>Submit</button>
-      </>
-    )}
-        </div>
-       
-      )}
+      <h1>Enter Your Questions Below</h1>
+      <form onSubmit={addQuestion}>
+        <input
+          type="text"
+          name="owner"
+          placeholder="Add Name (optional)..."
+          value={newQuestion.owner}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="text"
+          placeholder="Ask Question..."
+          value={newQuestion.text}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="answer"
+          placeholder="Add Answer..."
+          value={newQuestion.answer}
+          onChange={handleChange}
+        />
+        <button type="submit">Ask A Question</button>
+      </form>
+      <ul>
+        {questions.map((q) => (
+          <li key={q.id}>
+            <p>Question: {q.text}?</p>
+            <p>Answer: {q.answer}</p>
+            <p>Created By: {q.owner}</p>
+            <button onClick={() => handleEdit(q.id)}>Edit</button>
+            {editing === q.id && (
+              <form onSubmit={(e) => handleSubmitEdit(e, q.id)}>
+                <input
+                  type="text"
+                  name="text"
+                  value={newQuestion.text}
+                  onChange={handleChange}
+                />
+                <button type="submit">Submit</button>
+              </form>
+            )}
+            <button onClick={() => handleDelete(q.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
-  )
-}
-
-export default Question
-
-const initialState = {
-  arr: [],
-  question: '',
-  answer: '',
-  answerInp: false,
-  answerId: null,
-  editInp: false,
-  editId: null,
-  show: true,
-  owner: '',
-  deleteName: '',
-  deleteId: null,
-  deleteInp: false,
-};
-
-function reducer(state, action) {
-  switch(action.type) {
-    case 'ADD_QUESTION':
-      return {
-        ...state,
-        arr: [...state.arr, action.payload],
-        question: '',
-        owner: '',
-      };
-    case 'SET_QUESTION':
-      return {
-        ...state,
-        question: action.payload,
-      };
-    case 'SET_ANSWER':
-      return {
-        ...state,
-        answer: action.payload,
-      };
-    case 'SET_ANSWER_INP':
-      return {
-        ...state,
-        answerInp: action.payload,
-        answerId: action.answerId,
-      };
-    case 'SET_EDIT_INP':
-      return {
-        ...state,
-        editInp: action.payload,
-        editId: action.editId,
-      };
-    case 'SET_SHOW':
-      return {
-        ...state,
-        show: action.payload,
-      };
-    case 'SET_OWNER':
-      return {
-        ...state,
-        owner: action.payload,
-      };
-    case 'SET_DELETE_NAME':
-      return {
-        ...state,
-        deleteName: action.payload,
-      };
-    case 'SET_DELETE_ID':
-      return {
-        ...state,
-        deleteId: action.payload,
-      };
-    case 'SET_DELETE_INP':
-      return {
-        ...state,
-        deleteInp: action.payload,
-      };
-    case 'HANDLE_ANSWER':
-      return {
-        ...state,
-        answerInp: true,
-        answerId: action.payload,
-      };
-    case 'HANDLE_EDIT':
-      return {
-        ...state,
-        editInp: true,
-        editId: action.payload,
-      };
-    case 'HANDLE_DELETE':
-      return {
-        ...state,
-        deleteInp: true,
-        deleteId: action.payload,
-        deleteName: '',
-      };
-    case 'HANDLE_SUBMIT_ANS':
-      return {
-        ...state,
-        arr: state.arr.map(q => {
-          if (q.id === state.answerId) {
-            return {
-              ...q,
-              Answer: state.answer,
-            };
-          } else {
-            return q;
-          }
-        }),
-        answerInp: false,
-        answer: '',
-        answerId: null,
-      };
-    case 'HANDLE_EDITING':
-      return {
-        ...state,
-        arr: state.arr.map(q => {
-          if (q.id === state.editId) {
-            return {
-              ...q,
-              Question: state.question,
-            };
-          } else {
-            return q;
-          }
-        }),
-        editInp: false,
-        question: '',
-        editId: null,
-      };
-    case 'HANDLE_DELETING':
-      return {
-        ...state,
-        arr: state.arr.filter((q) => q.id !== state.deleteId || q.Owner !== state.deleteName),
-        deleteInp: false,
-        deleteName: '',
-      };
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
-  }
+  );
 }
